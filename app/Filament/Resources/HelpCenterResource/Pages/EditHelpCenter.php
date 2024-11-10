@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\DeviceResource\Pages;
+namespace App\Filament\Resources\HelpCenterResource\Pages;
 
-use App\Filament\Resources\DeviceResource;
+use App\Filament\Resources\HelpCenterResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditDevice extends EditRecord
+class EditHelpCenter extends EditRecord
 {
-    protected static string $resource = DeviceResource::class;
+    protected static string $resource = HelpCenterResource::class;
 
     protected function getHeaderActions(): array
     {

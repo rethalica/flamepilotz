@@ -11,7 +11,7 @@ class Log extends Model
         'water_level',
         'battery_level',
         'status',
-        'fire_detection',
+        'smoke_level',
         'device_id',
     ];
 
@@ -19,7 +19,7 @@ class Log extends Model
         'temperature' => 'float',
         'water_level' => 'float',
         'battery_level' => 'float',
-        'fire_detection' => 'boolean',
+        'smoke_level' => 'float',
     ];
 
     public function device()
@@ -27,35 +27,36 @@ class Log extends Model
         return $this->belongsTo(Device::class);
     }
 
-     // Setter untuk temperature
-    public function setTemperatureAttribute($value)
-    {
-        $this->attributes['temperature'] = $value;
-        $this->updateStatus();
-    }
+    // // Setter untuk temperature
+    // public function setTemperatureAttribute($value)
+    // {
+    //     $this->attributes['temperature'] = $value;
+    //     $this->updateStatus();
+    // }
 
-     // Setter untuk water_level
-    public function setWaterLevelAttribute($value)
-    {
-         $this->attributes['water_level'] = $value;
-         $this->updateStatus();
-     }
- 
-     // Setter untuk fire_detection
-     public function setFireDetectionAttribute($value)
-     {
-         $this->attributes['fire_detection'] = $value;
-         $this->updateStatus();
-     }
- 
-     // Metode untuk memperbarui status
-     protected function updateStatus()
-     {
-         // Cek semua kondisi untuk menentukan status
-         if ($this->temperature > 40 || $this->water_level < 60 || $this->fire_detection) {
-             $this->attributes['status'] = 'danger';
-         } else {
-             $this->attributes['status'] = 'normal'; // Atau status lain yang sesuai
-         }
-     }
+    // // Setter untuk water_level
+    // public function setWaterLevelAttribute($value)
+    // {
+    //     $this->attributes['water_level'] = $value;
+    //     $this->updateStatus();
+    // }
+
+    // // Setter untuk fire_detection
+    // public function setFireDetectionAttribute($value)
+    // {
+    //     $this->attributes['smoke_level'] = $value;
+    //     $this->updateStatus();
+    // }
+
+    // // Metode untuk memperbarui status
+    // public function updateStatus()
+    // {
+    //     if ($this->temperature > 30 || $this->water_level < 80 || $this->smoke_level > 20 || $this->battery_level < 80) {
+    //         $this->status = 'warning';
+    //     } else if ($this->temperature > 40 || $this->water_level < 60 || $this->smoke_level > 0 || $this->battery_level < 60) {
+    //         $this->status = 'danger';
+    //     } else {
+    //         $this->status = 'normal';
+    //     }
+    // }
 }

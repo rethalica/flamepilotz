@@ -57,16 +57,13 @@ class DeviceResource extends Resource
                 ->label('Battery Level')
                 ->getStateUsing(fn ($record) => $record->logs()->latest()->value('battery_level'))
                 ->sortable(),
+            Tables\Columns\TextColumn::make('smoke_level')
+                ->label('Smoke Level')
+                ->getStateUsing(fn ($record) => $record->logs()->latest()->value('smoke_level'))
+                ->sortable(),
             Tables\Columns\TextColumn::make('status')
                 ->label('Status')
                 ->getStateUsing(fn ($record) => $record->logs()->latest()->value('status'))
-                ->sortable(),
-            Tables\Columns\IconColumn::make('fire_detection')
-                ->label('Fire')
-                ->boolean()
-                ->trueColor('danger')
-                ->falseColor('success')
-                ->getStateUsing(fn ($record) => $record->logs()->latest()->value('fire_detection'))
                 ->sortable(),
             ])
             ->filters([

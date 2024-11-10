@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\LogExporter;
 use App\Filament\Resources\LogResource\Pages;
 use App\Filament\Resources\LogResource\RelationManagers;
 use App\Models\Log;
 use Carbon\Carbon;
 use DeepCopy\Filter\Filter;
+// use Filament\Actions\ExportAction;
 use Filament\Forms;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Form;
+use Filament\Forms\FormsComponent;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -36,6 +40,9 @@ class LogResource extends Resource
                     ->label('Temp')
                     ->required()
                     ->suffix('°C')
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->maxLength(3)
                     ->placeholder('Temperature'),
                 Forms\Components\TextInput::make('water_level')
                     ->label('Water Level')
@@ -43,26 +50,35 @@ class LogResource extends Resource
                     ->minValue(0)
                     ->maxValue(100)
                     ->suffix('%')
+                    ->maxLength(3)
                     ->placeholder('Water Level'),
                 Forms\Components\TextInput::make('battery_level')
                     ->label('Battery (%)')
                     ->minValue(0)
                     ->maxValue(100)
                     ->suffix('%')
+                    ->maxLength(3)
                     ->required(),
-                // Forms\Components\Select::make('status')
-                //     ->label('Status')
-                //     ->options([
-                //         'normal' => 'Normal',
-                //         'warning' => 'Warning',
-                //         'danger' => 'Danger',
-                //     ])
-                //     ->required()
-                //     ->placeholder('Select Status')
-                //     ->default('normal'),
-                Forms\Components\Checkbox::make('fire_detection')
-                    ->label('Fire')
-                    ->default(false),
+                Forms\Components\TextInput::make('smoke_level')
+                    ->label('Smoke Level (%)')
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->suffix('%')
+                    ->maxLength(3)
+                    ->required(),
+                Forms\Components\Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'normal' => 'Normal',
+                        'warning' => 'Warning',
+                        'danger' => 'Danger',
+                    ])
+                    ->required()
+                    ->placeholder('Select Status')
+                    ->default('normal'),
+                // Forms\Components\Checkbox::make('fire_detection')
+                //     ->label('Fire')
+                //     ->default(false),
             ]);
     }
 
@@ -71,47 +87,44 @@ class LogResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                ->label('No')
-                ->sortable()
-                ->getStateUsing(function (Tables\Columns\TextColumn $column, $record) {
-                    return $column->getTable()->getRecords()->firstItem() + $column->getTable()->getRecords()->search($record);
-                }),
-            Tables\Columns\TextColumn::make('device.name') // Menampilkan nama perangkat
-                ->label('Device Name')
-                ->sortable(),
-            Tables\Columns\TextColumn::make('device.location') // Menampilkan lokasi perangkat
-                ->label('Location')
-                ->sortable(),
-            Tables\Columns\TextColumn::make('temperature')
-                ->label('Temp (°C)')
-                ->sortable(),
-            Tables\Columns\TextColumn::make('water_level')
-                ->label('Water Level (%)')
-                ->sortable(),
-            Tables\Columns\TextColumn::make('battery_level')
-                ->label('Battery (%)')
-                ->sortable(),
-            Tables\Columns\TextColumn::make('status')
-                ->label('Status')
-                ->sortable(),
-            Tables\Columns\IconColumn::make('fire_detection')
-                ->label('Fire')
-                ->boolean()
-                ->trueColor('danger')
-                ->falseColor('success')
-                ->sortable(),
-            Tables\Columns\TextColumn::make('created_at')
-                ->label('logged at')
-                ->getStateUsing(fn ($record) => Carbon::parse($record->created_at)->diffForHumans())
-                ->sortable(),
+                    ->label('No')
+                    ->sortable()
+                    ->getStateUsing(function (Tables\Columns\TextColumn $column, $record) {
+                        return $column->getTable()->getRecords()->firstItem() + $column->getTable()->getRecords()->search($record);
+                    }),
+                Tables\Columns\TextColumn::make('device.name') // Menampilkan nama perangkat
+                    ->label('Device Name')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('device.location') // Menampilkan lokasi perangkat
+                    ->label('Location')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('temperature')
+                    ->label('Temp (°C)')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('water_level')
+                    ->label('Water Level (%)')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('battery_level')
+                    ->label('Battery (%)')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('smoke_level')
+                    ->label('Smoke Level (%)')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('logged at')
+                    ->getStateUsing(fn($record) => Carbon::parse($record->created_at)->diffForHumans())
+                    ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('fire_detection')
-                    ->options([
-                        'true' => 'Fire Detected',
-                        'false' => 'No Fire Detected',
-                    ])
-                    ->label('Fire'),
+                // Tables\Filters\SelectFilter::make('fire_detection')
+                //     ->options([
+                //         'true' => 'Fire Detected',
+                //         'false' => 'No Fire Detected',
+                //     ])
+                //     ->label('Fire'),
                 Tables\Filters\SelectFilter::make('device_id')
                     ->relationship('device', 'name')
                     ->label('Device'),
@@ -125,6 +138,9 @@ class LogResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(LogExporter::class),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

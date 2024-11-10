@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logs', function (Blueprint $table) {
+        Schema::create('failed_import_rows', function (Blueprint $table) {
             $table->id();
-            $table->float('temperature');
-            $table->float('water_level');
-            $table->float('battery_level');
-            $table->float('smoke_level');
-            $table->enum('status', ['normal', 'warning', 'danger']);
-            $table->foreignId('device_id')->constrained();
-
+            $table->json('data');
+            $table->foreignId('import_id')->constrained()->cascadeOnDelete();
+            $table->text('validation_error')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logs');
+        Schema::dropIfExists('failed_import_rows');
     }
 };
