@@ -1,21 +1,37 @@
 <?php
 
 use App\Filament\Resources\HelpCenterResource\Pages\RespondHelpCenter;
+use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
+})->name('home');
+
+Route::get('/home', function () {
+    return view('home');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Route untuk halaman utama monitoring
+Route::get('/monitoring', [MonitoringController::class, 'index'])->middleware('auth')->name('monitoring');
+
+// Route untuk mengambil log perangkat untuk grafik
+Route::get('/monitoring/{deviceId}/logs', [MonitoringController::class, 'getDeviceLogs']);
+
+// Route untuk mengambil detail perangkat
+Route::get('/monitoring/{deviceId}/details', [MonitoringController::class, 'getDeviceDetails']);
+
+
 
 require __DIR__ . '/auth.php';

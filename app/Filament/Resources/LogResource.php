@@ -93,7 +93,7 @@ class LogResource extends Resource
                         return $column->getTable()->getRecords()->firstItem() + $column->getTable()->getRecords()->search($record);
                     }),
                 Tables\Columns\TextColumn::make('device.name') // Menampilkan nama perangkat
-                    ->label('Device Name')
+                    ->label('Room Name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('device.location') // Menampilkan lokasi perangkat
                     ->label('Location')

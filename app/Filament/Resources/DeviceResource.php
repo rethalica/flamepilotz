@@ -25,12 +25,12 @@ class DeviceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                ->required()
-                ->maxLength(50)
-                ->unique('devices', 'name'),
+                    ->required()
+                    ->maxLength(50)
+                    ->unique('devices', 'name'),
                 Forms\Components\TextInput::make('location')
-                ->required()
-                ->maxLength(50),
+                    ->required()
+                    ->maxLength(50),
             ]);
     }
 
@@ -39,32 +39,32 @@ class DeviceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('No')
-                ->sortable()
-                ->getStateUsing(function (Tables\Columns\TextColumn $column, $record) {
-                    return $column->getTable()->getRecords()->firstItem() + $column->getTable()->getRecords()->search($record);
-                }),
-                Tables\Columns\TextColumn::make('name')->label('Device name')->sortable(),
+                    ->sortable()
+                    ->getStateUsing(function (Tables\Columns\TextColumn $column, $record) {
+                        return $column->getTable()->getRecords()->firstItem() + $column->getTable()->getRecords()->search($record);
+                    }),
+                Tables\Columns\TextColumn::make('name')->label('Room name')->sortable(),
                 Tables\Columns\TextColumn::make('location')->label('Location')->sortable(),
                 Tables\Columns\TextColumn::make('temperature')
-                ->label('Temperature')
-                ->getStateUsing(fn ($record) => $record->logs()->latest()->value('temperature'))
-                ->sortable(),
-            Tables\Columns\TextColumn::make('water_level')
-                ->label('Water Level')
-                ->getStateUsing(fn ($record) => $record->logs()->latest()->value('water_level'))
-                ->sortable(),
-            Tables\Columns\TextColumn::make('battery_level')
-                ->label('Battery Level')
-                ->getStateUsing(fn ($record) => $record->logs()->latest()->value('battery_level'))
-                ->sortable(),
-            Tables\Columns\TextColumn::make('smoke_level')
-                ->label('Smoke Level')
-                ->getStateUsing(fn ($record) => $record->logs()->latest()->value('smoke_level'))
-                ->sortable(),
-            Tables\Columns\TextColumn::make('status')
-                ->label('Status')
-                ->getStateUsing(fn ($record) => $record->logs()->latest()->value('status'))
-                ->sortable(),
+                    ->label('Temperature')
+                    ->getStateUsing(fn($record) => $record->logs()->latest()->value('temperature'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('water_level')
+                    ->label('Water Level')
+                    ->getStateUsing(fn($record) => $record->logs()->latest()->value('water_level'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('battery_level')
+                    ->label('Battery Level')
+                    ->getStateUsing(fn($record) => $record->logs()->latest()->value('battery_level'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('smoke_level')
+                    ->label('Smoke Level')
+                    ->getStateUsing(fn($record) => $record->logs()->latest()->value('smoke_level'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->getStateUsing(fn($record) => $record->logs()->latest()->value('status'))
+                    ->sortable(),
             ])
             ->filters([
                 //

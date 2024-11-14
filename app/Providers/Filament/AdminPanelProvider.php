@@ -32,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->brandName('Flamepilot')
             ->colors([
-                'primary' => Color::Sky,
+                'primary' => Color::Purple,
             ])
             ->font('Plus Jakarta Sans')
             ->databaseNotifications()
