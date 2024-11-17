@@ -4,19 +4,21 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FlamePilot | Device Monitoring</title>
+    <title>FlamePilot - Monitoring</title>
     <link rel="icon" href="{{ asset('favicon/logo.ico') }}" type="image">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" /> --}}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap"
         rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
-        /* custom.css */
+        /* Additional custom styles */
         body {
-            font-family: "Plus Jakarta Sans", sans-serif;
+            font-family: "Montserrat", sans-serif;
         }
 
         aside {
@@ -25,14 +27,6 @@
 
         .shadow-lg {
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        #status.normal {
-            color: green;
-        }
-
-        #status.tidak-aman {
-            color: red;
         }
 
         /* Custom color scheme */
@@ -51,94 +45,16 @@
         .bg-card {
             background-color: #FFFFFF;
         }
-
-        *** Navbar Start ***/
-
-        /* Navbar Container */
-        .navbar-light {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            background-color: var(--bs-light);
-            border-bottom: 1px dotted var(--bs-dark);
-            z-index: 999;
-        }
-
-        /* Navbar Links - Bold Font */
-        .navbar-light .navbar-nav .nav-link {
-            position: relative;
-            margin-right: 25px;
-            padding: 35px 0;
-            color: var(--bs-dark);
-            font-size: 17px;
-            font-weight: 700;
-            /* Changed to 700 for bold font */
-            transition: color 0.3s;
-            /* Adjust transition for color only */
-        }
-
-        /* Active and Hover States for Links */
-        .navbar-light .navbar-nav .nav-link:hover,
-        .navbar-light .navbar-nav .nav-link.active {
-            color: var(--bs-primary);
-            font-weight: 700;
-            /* Ensure bold on hover and active */
-        }
-
-        /* Dropdown Menu on Hover */
-        .navbar .nav-item:hover .dropdown-menu {
-            transform: rotateX(0deg);
-            visibility: visible;
-            opacity: 1;
-            background: var(--bs-light);
-            transition: opacity 0.3s;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 991.98px) {
-            .navbar.navbar-expand-lg .navbar-toggler {
-                padding: 10px 20px;
-                border: 1px solid var(--bs-primary);
-                color: var(--bs-primary);
-            }
-
-            .navbar-light .navbar-collapse {
-                margin-top: 15px;
-                border-top: 1px solid rgba(0, 0, 0, 0.08);
-            }
-
-            /* Adjust Navbar Links for Mobile */
-            .navbar-light .navbar-nav .nav-link {
-                padding: 10px 0;
-                margin-left: 0;
-                color: var(--bs-dark);
-                font-weight: 700;
-                /* Ensure bold on mobile as well */
-            }
-
-            /* Navbar Brand Image for Mobile */
-            .navbar-light .navbar-brand img {
-                max-height: 45px;
-            }
-
-            /* Chart container adjustments */
-            #chart-container {
-                max-height: 300px;
-                /* Reduce chart height */
-                overflow: hidden;
-            }
-        }
-
-        /*** Navbar End ***/
     </style>
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}"> --}}
+
 </head>
 
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-[#070201] shadow-md px-4 px-lg-5 py-3 py-lg-0">
-        <h1 class="navbar-brand d-flex align-items-center text-primary fw-bold" style="font-size: 1.75rem;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-[#070201] text-bla shadow-md px-4 px-lg-5 py-3 py-lg-0">
+        <h1 class="navbar-brand d-flex align-items-center text-primary fw-bold" style="font-size: 1.3rem;">
             <img src="{{ asset('assets/img/logo.png') }}" alt="Flame Pilot Logo" class="me-3"
                 style="width: 50px; height: auto;">
             FlamePilot
@@ -147,26 +63,42 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ms-auto py-0">
+            <ul class="navbar-nav ms-auto py-0" x-data="{ currentPath: window.location.pathname }">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link fw-bold primary-color">Home</a>
+                    <a href="{{ route('home') }}" class="nav-link fw-bold"
+                        :class="{ 'text-primary': currentPath === '/' }"
+                        @mouseenter="$el.classList.add('text-primary')"
+                        @mouseleave="$el.classList.remove('text-primary', currentPath !== '/')">
+                        Home
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('monitoring') }}" class="nav-item nav-link fw-bold">Monitoring</a>
+                    <a href="{{ route('monitoring') }}" class="nav-link fw-bold"
+                        :class="{ 'text-primary': currentPath === '/monitoring' }"
+                        @mouseenter="$el.classList.add('text-primary')"
+                        @mouseleave="$el.classList.remove('text-primary', currentPath !== '/monitoring')">
+                        Monitoring
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('faq') }}" class="nav-link fw-bold"
+                        :class="{ 'text-primary': currentPath === '/faq' }"
+                        @mouseenter="$el.classList.add('text-primary')"
+                        @mouseleave="$el.classList.remove('text-primary', currentPath !== '/faq')">
+                        FAQ
+                    </a>
                 </li>
                 @if (Auth::check())
                     <li class="nav-item">
                         <a class="nav-link mx-1 fw-bold" href="{{ route('logout') }}"
+                            @mouseenter="$el.classList.add('text-primary')"
+                            @mouseleave="$el.classList.remove('text-primary')"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Logout
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
-                    </li>
-                @else
-                    <li class="nav-item">
-                        <a class="nav-link mx-1 fw-bold" href="{{ route('login') }}">Login</a>
                     </li>
                 @endif
             </ul>
@@ -197,39 +129,38 @@
 
             <!-- Dashboard Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Template for each Card -->
                 <div class="bg-card p-5 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold mb-2 text-muted">
-                        Ruangan: <span id="room-name">{{ $devices->first()->name ?? '-' }}</span>
-                    </h3>
-                    <p class="text-muted">Lokasi: <span
+                    <h3 class="text-xl font-semibold mb-2 text-muted">Ruangan: <span
+                            id="room-name">{{ $devices->first()->name ?? '-' }}</span></h3>
+                    <p class="text-black">Lokasi: <span
                             id="room-location">{{ $devices->first()->location ?? '-' }}</span></p>
                 </div>
-
+                <!-- Additional Cards for Device Data -->
+                <!-- Temperature -->
                 <div class="bg-card p-5 rounded-lg shadow-lg">
                     <h3 class="text-xl font-semibold mb-2 text-muted">Suhu Ruangan</h3>
                     <p class="text-2xl font-bold primary-color" id="temperature">
                         {{ $devices->first()->latestLog->temperature ?? '-' }}°C</p>
                 </div>
-
+                <!-- Battery -->
                 <div class="bg-card p-5 rounded-lg shadow-lg">
                     <h3 class="text-xl font-semibold mb-2 text-muted">Baterai</h3>
                     <p class="text-2xl font-bold primary-color" id="battery">
                         {{ $devices->first()->latestLog->battery_level ?? '-' }}%</p>
                 </div>
-
+                <!-- Water Level -->
                 <div class="bg-card p-5 rounded-lg shadow-lg">
                     <h3 class="text-xl font-semibold mb-2 text-muted">Water Level</h3>
                     <p class="text-2xl font-bold primary-color" id="water-level">
                         {{ $devices->first()->latestLog->water_level ?? '-' }}%</p>
                 </div>
-
+                <!-- Smoke Level -->
                 <div class="bg-card p-5 rounded-lg shadow-lg">
                     <h3 class="text-xl font-semibold mb-2 text-muted">Smoke Level</h3>
                     <p class="text-2xl font-bold text-red-500" id="smoke-level">
                         {{ $devices->first()->latestLog->smoke_level ?? '-' }}%</p>
                 </div>
-
+                <!-- Status -->
                 <div class="bg-card p-5 rounded-lg shadow-lg">
                     <h3 class="text-xl font-semibold mb-2 text-muted">Status</h3>
                     <p id="status"
@@ -238,12 +169,62 @@
                 </div>
             </div>
 
-            <!-- Graph Section -->
-            <!-- Graph Section -->
-            <div id="chart-container" class="mt-6 bg-card p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-semibold mb-4 text-muted">Temperature & Smoke Level trend</h3>
-                <canvas id="tempSmokeChart" class="w-full"></canvas>
+            <!-- Chart and Table Section -->
+            <!-- Chart and Table Section -->
+            <!-- Chart and Table Section -->
+            <div class="flex flex-col lg:flex-row gap-4 mt-6 items-stretch">
+                <!-- Chart Section -->
+                <div id="chart-container"
+                    class="bg-card p-4 rounded-lg shadow-lg w-full lg:w-1/2 mx-auto lg:mx-0 flex-grow">
+                    <h3 class="text-xl font-semibold mb-4 text-muted">Temperature & Smoke Level Trend</h3>
+                    <canvas id="tempSmokeChart" class="w-full h-48 sm:h-64 lg:h-80"></canvas>
+                </div>
+
+                <!-- Table Section -->
+                <div
+                    class="bg-card p-4 rounded-lg shadow-lg w-full lg:w-1/2 mx-auto lg:mx-0 overflow-x-auto overflow-y-auto flex-grow">
+                    <h3 class="text-xl font-semibold mb-4 text-muted">Log Data</h3>
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">No.</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Temp (°C)
+                                </th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Smoke (%)
+                                </th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Battery (%)
+                                </th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Water (%)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="log-table-body" class="bg-white divide-y divide-gray-200 text-center">
+                            <!-- Log data rows will be added dynamically -->
+                        </tbody>
+                    </table>
+                    <!-- Pagination controls with Tailwind CSS -->
+                    <nav class="mt-4">
+                        <ul class="flex justify-center space-x-1">
+                            <!-- Previous Button -->
+                            <li>
+                                <button
+                                    class="px-3 py-1 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-[#136FF5] hover:text-blue-600 disabled:bg-gray-200"
+                                    id="prev-page" disabled>Previous</button>
+                            </li>
+                            <!-- Dynamically add numbered page items here -->
+                            <span id="pagination-numbers" class="flex space-x-1"></span>
+                            <!-- Next Button -->
+                            <li>
+                                <button
+                                    class="px-3 py-1 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-[#136FF5] hover:text-blue-600 disabled:bg-gray-200"
+                                    id="next-page">Next</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
+
         </main>
     </div>
 
@@ -252,6 +233,77 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        function generateLogs() {
+            fetch('/generate-logs')
+                .then(response => response.json())
+                .then(data => console.log(data.message))
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Memanggil fungsi generateLogs setiap 1 menit (60000 ms)
+        setInterval(generateLogs, 60000);
+    </script>
+    <script>
+        // Set up variables for pagination
+        let currentPage = 1;
+        const rowsPerPage = 6;
+        let logsData = [];
+
+        // Fetch log data and update table with pagination
+        function fetchLogs(deviceId) {
+            fetch(`/monitoring/${deviceId}/logs-table`)
+                .then(response => response.json())
+                .then(data => {
+                    logsData = data;
+                    updateTable();
+                })
+                .catch(error => console.error('Error fetching logs:', error));
+        }
+
+
+        // Update table to display logs with pagination
+        function updateTable() {
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedData = logsData.slice(start, end);
+
+            // Clear existing table rows
+            document.getElementById("log-table-body").innerHTML = '';
+
+            // Populate table with paginated data
+            paginatedData.forEach((log, index) => { // Add index as a second parameter
+                const row = `
+                <tr>
+                    <td>${start + index + 1}</td> <!-- Adding row number correctly -->
+                    <td>${log.time_full || '-'}</td>
+                    <td>${log.temperature ? `${log.temperature}°C` : '-'}</td>
+                    <td>${log.smoke_level ? `${log.smoke_level}%` : '0%'}</td>
+                    <td>${log.battery_level ? `${log.battery_level}%` : '0%'}</td>
+                    <td>${log.water_level ? `${log.water_level}%` : '0%'}</td>
+                </tr>
+        `;
+                document.getElementById("log-table-body").insertAdjacentHTML('beforeend', row);
+            });
+
+            // Enable/disable pagination buttons
+            document.getElementById("prev-page").disabled = currentPage === 1;
+            document.getElementById("next-page").disabled = end >= logsData.length;
+        }
+
+        // Pagination button listeners
+        document.getElementById("prev-page").addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateTable();
+            }
+        });
+
+        document.getElementById("next-page").addEventListener("click", () => {
+            if ((currentPage * rowsPerPage) < logsData.length) {
+                currentPage++;
+                updateTable();
+            }
+        });
         // Update Room Details
         //Fetch room details based on selected device ID
 
@@ -275,19 +327,21 @@
         }
 
         function updateChart(selectedDeviceId) {
-            fetch(`/monitoring/${selectedDeviceId}/logs`)
+            fetch(`/monitoring/${selectedDeviceId}/logs-chart`)
                 .then(response => response.json())
                 .then(data => {
                     const temperatures = data.map(log => log.temperature);
                     const smokeLevels = data.map(log => log.smoke_level);
-                    const timeLabels = data.map(log => log.time);
+                    const timeLabels = data.map(log => log.time); // Use short format for chart
 
                     tempSmokeChart.data.labels = timeLabels;
                     tempSmokeChart.data.datasets[0].data = temperatures;
                     tempSmokeChart.data.datasets[1].data = smokeLevels;
                     tempSmokeChart.update();
-                });
+                })
+                .catch(error => console.error('Error fetching chart logs:', error));
         }
+
 
 
         const ctx = document.getElementById("tempSmokeChart").getContext("2d");
@@ -324,11 +378,15 @@
         const initialDeviceId = document.getElementById("room-select").value;
         fetchRoomDetails(initialDeviceId);
         updateChart(initialDeviceId);
+        fetchLogs(initialDeviceId);
+
 
         document.getElementById("room-select").addEventListener("change", function() {
             const selectedDeviceId = this.value;
             fetchRoomDetails(selectedDeviceId);
             updateChart(selectedDeviceId);
+            currentPage = 1; // Reset pagination
+            fetchLogs(selectedDeviceId);
         });
     </script>
 </body>

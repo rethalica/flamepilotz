@@ -1,0 +1,101 @@
+/* login.css */
+
+/* Styling untuk body dan background */
+body {
+    font-family: "Montserrat", sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2d6b86 0%, #a2c3d4 50%, #ec8836 100%);
+}
+
+/* Styling untuk card login */
+.login-card {
+    background-color: white;
+    border-radius: 20px;
+    padding: 60px; /* Memperbesar padding agar lebih proporsional */
+    max-width: 1400px; /* Mengubah lebar maksimal card menjadi lebih besar */
+    width: 100%;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling untuk logo di login */
+.login-logo img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
+
+.login-logo h4 {
+    margin-top: 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #ec8836, #2d6b86);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Styling untuk form login */
+.login-form h3 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #27367d; /* Mengubah warna teks menjadi #27367D */
+}
+
+.form-control {
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #3b7dbf;
+}
+
+.btn-outline {
+    border: 1px solid #4a90e2;
+    color: #4a90e2;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+.btn-outline:hover {
+    background-color: #4a90e2;
+    color: #ffffff;
+}
+
+/* Styling untuk divider */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.divider:not(:empty)::before {
+    margin-right: 0.5em;
+}
+
+.divider:not(:empty)::after {
+    margin-left: 0.5em;
+}

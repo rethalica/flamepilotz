@@ -18,25 +18,47 @@ class MonitoringController extends Controller
         return view('monitoring', compact('devices'));
     }
 
-    // Function to fetch logs dynamically for a device for the chart
-    public function getDeviceLogs($deviceId)
+    public function getDeviceLogsForChart($deviceId)
     {
-        // Fetch last 5 logs for chart data, ordered chronologically
+        // Fetch last 7 logs for chart data, ordered chronologically
         $logs = Device::findOrFail($deviceId)->logs()
             ->latest()
-            ->take(10)
+            ->take(7)
             ->orderBy('created_at', 'asc') // Ensure chronological order
             ->get(['temperature', 'smoke_level', 'created_at'])
             ->map(function ($log) {
                 return [
                     'temperature' => $log->temperature,
                     'smoke_level' => $log->smoke_level,
-                    'time' => Carbon::parse($log->created_at)->format('H:i') // Format time for chart
+                    'time' => Carbon::parse($log->created_at)->format('H:i') // Short format for chart
                 ];
             });
 
         return response()->json($logs);
     }
+
+    public function getDeviceLogsForTable($deviceId)
+    {
+        // Fetch last 20 logs for table, ordered chronologically
+        $logs = Device::findOrFail($deviceId)->logs()
+            ->latest()
+            ->take(20)
+            ->orderBy('created_at', 'asc') // Ensure chronological order
+            ->get(['temperature', 'smoke_level', 'battery_level', 'water_level', 'created_at'])
+            ->map(function ($log) {
+                return [
+                    'temperature' => $log->temperature,
+                    'smoke_level' => $log->smoke_level,
+                    'battery_level' => $log->battery_level,
+                    'water_level' => $log->water_level,
+                    'time_full' => Carbon::parse($log->created_at)->format('d M y, H:i') // Full format for table log
+                ];
+            });
+
+        return response()->json($logs);
+    }
+
+
 
     public function getDeviceDetails($deviceId)
     {

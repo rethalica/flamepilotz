@@ -1,90 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Flamepilot</title>
-    {{-- add favicon links --}}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlamePilot - Login</title>
     <link rel="icon" href="{{ asset('favicon/logo.ico') }}" type="image">
-    @vite('resources/css/app.css')
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap"
+        rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="{{ asset('assets/css/login2.css') }}" rel="stylesheet" />
 </head>
 
 <body>
-    <div class="font-sans">
-        <div class="grid lg:grid-cols-3 md:grid-cols-2 items-center gap-4 h-full">
-            <div
-                class="max-md:order-0 lg:col-span-2 w-full bg-[#000842] md:h-screen md:rounded-tr-xl md:rounded-br-xl lg:p-12 p-8">
-                <img src="{{ asset('assets/img/logo.png') }}"
-                    class="max-md:w-[30%] max-md:h-[80px] lg:w-[60%] md:w-[50%] h-full object-contain block mx-auto"
-                    alt="Login Background" />
-            </div>
-
-            <div class="w-full p-8 max-md:order-1">
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-
-                    @if ($errors->any())
-                        <div
-                            class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 text-lg">
-                            <!-- Increased text size -->
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <div class="mb-10"> <!-- Increased margin -->
-                        <h3 class="text-gray-800 text-4xl font-extrabold">Sign in</h3> <!-- Increased font size -->
-                        <p class="text-base mt-4 text-gray-800 font-bold">Selamat datang di Flamepilot</p>
-                        <!-- Increased font size -->
-                    </div>
-
-                    <div>
-                        <label class="text-gray-800 text-lg mb-3 block">Email</label>
-                        <!-- Increased font size and margin -->
-                        <div class="relative flex items-center">
-                            <input name="email" type="email" required value="{{ old('email') }}"
-                                class="w-full text-lg text-gray-800 bg-gray-100 focus:bg-transparent px-5 py-4 rounded-md outline-blue-600"
-                                placeholder="Masukkan Email" />
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <!-- Login Card -->
+            <div class="col-xxl-8 col-xl-9 col-lg-10 col-md-10 col-sm-12">
+                <div class="login-card mx-auto row align-items-center">
+                    <!-- Logo section -->
+                    <div class="col-lg-5 col-md-12 text-center mb-4 mb-lg-0">
+                        <div class="login-logo">
+                            <img src="{{ asset('assets/img/logo.png') }}" alt="Flame Pilot Logo" />
+                            <h4>FlamePilot</h4>
                         </div>
                     </div>
 
-                    <div class="mt-6"> <!-- Increased margin -->
-                        <label class="text-gray-800 text-lg mb-3 block">Password</label>
-                        <!-- Increased font size and margin -->
-                        <div class="relative flex items-center">
-                            <input name="password" type="password" required
-                                class="w-full text-lg text-gray-800 bg-gray-100 focus:bg-transparent px-5 py-4 rounded-md outline-blue-600"
-                                placeholder="Masukkan kata sandi Anda" />
+                    <!-- Login Form Section -->
+                    <div class="col-lg-7 col-md-12">
+                        <div class="login-form">
+                            <h3>Masuk Ke Akun Anda</h3>
+
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+
+                                <div class="mb-3">
+                                    <input type="email" name="email"
+                                        class="form-control @error('email') is-invalid @enderror"
+                                        value="{{ old('email') }}" placeholder="Email" />
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" name="password"
+                                        class="form-control @error('password') is-invalid @enderror"
+                                        placeholder="Masukkan Kata Sandi" />
+                                </div>
+                                <div class="d-flex justify-content-end mb-4">
+                                    <a href="#" class="text-decoration-none" style="color: #4a90e2">Lupa Kata
+                                        Sandi?</a>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    Masuk
+                                </button>
+                            </form>
                         </div>
                     </div>
-
-                    {{-- <div class="flex flex-wrap items-center justify-between gap-4 mt-6"> <!-- Increased margin -->
-                        @if (Route::has('password.request'))
-                            <div>
-                                <a href="{{ route('password.request') }}"
-                                    class="text-blue-600 font-semibold text-base hover:underline">
-                                    <!-- Increased font size -->
-                                    Lupa kata sandi?
-                                </a>
-                            </div>
-                        @endif
-                    </div> --}}
-
-                    <div class="mt-10"> <!-- Increased margin -->
-                        <button type="submit"
-                            class="w-full py-4 px-6 text-lg tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-                            <!-- Increased padding and font size -->
-                            Masuk
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-</body>
 
 </html>

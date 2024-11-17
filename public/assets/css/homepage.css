@@ -1,6 +1,3 @@
-/* Impor font Plus Jakarta Sans */
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap");
-
 /* Terapkan font global */
 body,
 a,
@@ -12,9 +9,14 @@ h5,
 h6,
 p,
 .btn {
-    font-family: "Plus Jakarta Sans", Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     color: var(--bs-body); /* Sesuaikan dengan variabel warna teks utama */
+}
+
+/* Mengubah warna background body dengan gradasi */
+body {
+    background: linear-gradient(135deg, #2d6b86 0%, #a2c3d4 50%, #ec8836 100%);
 }
 
 /* Heading dan font tebal */
@@ -132,6 +134,26 @@ a:hover {
 }
 /*** Navbar Start ***/
 
+/* Terapkan gradien pada teks FlamePilot */
+.text-gradient {
+    background: linear-gradient(to right, #ec8836, #2d6b86);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Ubah warna teks navbar */
+.navbar-light .navbar-nav .nav-link {
+    color: #409cc2;
+}
+
+/* Ukuran logo di navbar */
+.logo-image {
+    width: 50px;
+    height: auto;
+}
+
 /* Navbar Container */
 .navbar-light {
     position: fixed;
@@ -198,6 +220,36 @@ a:hover {
 }
 
 /*** Navbar End ***/
+
+/* Landing Hero Section */
+.landing-hero {
+    color: #ffffff;
+    padding: 80px 0;
+}
+
+.landing-hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.landing-hero p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.landing-hero .btn-outline-light {
+    border: 2px solid #ffffff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.landing-hero .btn-outline-light:hover {
+    background-color: #ffffff;
+    color: #2d6b86;
+}
+
+.image-placeholder {
+    border-radius: 10px;
+}
 
 /*** Carousel Hero Header Start ***/
 .carousel-header {
@@ -589,4 +641,34 @@ a:hover {
         min-width: 200px;
         max-width: 240px;
     }
+}
+
+/* Styling untuk box history bantuan */
+.history-item {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling untuk bagian-bagian dalam box */
+.history-item .bg-light {
+    background: #f9f9f9;
+}
+
+.history-item strong {
+    font-weight: 700;
+    color: #2d6b86;
+}
+
+.history-item p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Styling untuk memastikan form dan history tidak tertutup oleh navbar */
+.content-container {
+    margin-top: 80px; /* Sesuaikan dengan tinggi navbar */
 }

@@ -46,9 +46,9 @@ class HelpCenterResource extends Resource
                         'resolved' => 'Resolved',
                     ])
                     ->required(),
-                Forms\Components\Toggle::make('is_public')
-                    ->label('Is Public')
-                    ->default(false),
+                // Forms\Components\Toggle::make('is_public')
+                //     ->label('Is Public')
+                //     ->default(false),
                 Forms\Components\Textarea::make('response')
                     ->label('Response'),
 
@@ -79,9 +79,9 @@ class HelpCenterResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\ToggleColumn::make('is_public')
-                    ->label('Public')
-                    ->sortable(),
+                // Tables\Columns\ToggleColumn::make('is_public')
+                //     ->label('Public')
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('response')
                     ->searchable()
                     ->sortable()
@@ -91,6 +91,7 @@ class HelpCenterResource extends Resource
                     ->searchable()
                     ->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
@@ -98,12 +99,12 @@ class HelpCenterResource extends Resource
                         'resolved' => 'Resolved',
                     ])
                     ->label('Status'),
-                Tables\Filters\SelectFilter::make('is_public')
-                    ->options([
-                        '1' => 'Public',
-                        '0' => 'Private',
-                    ])
-                    ->label('Public'),
+                // Tables\Filters\SelectFilter::make('is_public')
+                //     ->options([
+                //         '1' => 'Public',
+                //         '0' => 'Private',
+                //     ])
+                //     ->label('Public'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

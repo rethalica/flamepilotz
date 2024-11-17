@@ -17,7 +17,7 @@ class LogExporter extends Exporter
             // ExportColumn::make('device.id')
             //     ->label('ID'),
             ExportColumn::make('device.name')
-                ->label('Device Name'),
+                ->label('Device Room'),
             ExportColumn::make('device.location')
                 ->label('Device Location'),
             ExportColumn::make('temperature'),
