@@ -31,51 +31,51 @@ class LogResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('device_id')
-                    ->relationship('device', 'name')
-                    ->label('Device ID')
-                    ->required()
-                    ->placeholder('Select Device'),
-                Forms\Components\TextInput::make('temperature')
-                    ->label('Temp')
-                    ->required()
-                    ->suffix('°C')
-                    ->minValue(0)
-                    ->maxValue(100)
-                    ->maxLength(3)
-                    ->placeholder('Temperature'),
-                Forms\Components\TextInput::make('water_level')
-                    ->label('Water Level')
-                    ->required()
-                    ->minValue(0)
-                    ->maxValue(100)
-                    ->suffix('%')
-                    ->maxLength(3)
-                    ->placeholder('Water Level'),
-                Forms\Components\TextInput::make('battery_level')
-                    ->label('Battery (%)')
-                    ->minValue(0)
-                    ->maxValue(100)
-                    ->suffix('%')
-                    ->maxLength(3)
-                    ->required(),
-                Forms\Components\TextInput::make('smoke_level')
-                    ->label('Smoke Level (%)')
-                    ->minValue(0)
-                    ->maxValue(100)
-                    ->suffix('%')
-                    ->maxLength(3)
-                    ->required(),
-                Forms\Components\Select::make('status')
-                    ->label('Status')
-                    ->options([
-                        'normal' => 'Normal',
-                        'warning' => 'Warning',
-                        'danger' => 'Danger',
-                    ])
-                    ->required()
-                    ->placeholder('Select Status')
-                    ->default('normal'),
+                // Forms\Components\Select::make('device_id')
+                //     ->relationship('device', 'name')
+                //     ->label('Device ID')
+                //     ->required()
+                //     ->placeholder('Select Device'),
+                // Forms\Components\TextInput::make('temperature')
+                //     ->label('Temp')
+                //     ->required()
+                //     ->suffix('°C')
+                //     ->minValue(0)
+                //     ->maxValue(100)
+                //     ->maxLength(3)
+                //     ->placeholder('Temperature'),
+                // Forms\Components\TextInput::make('water_level')
+                //     ->label('Water Level')
+                //     ->required()
+                //     ->minValue(0)
+                //     ->maxValue(100)
+                //     ->suffix('%')
+                //     ->maxLength(3)
+                //     ->placeholder('Water Level'),
+                // Forms\Components\TextInput::make('battery_level')
+                //     ->label('Battery (%)')
+                //     ->minValue(0)
+                //     ->maxValue(100)
+                //     ->suffix('%')
+                //     ->maxLength(3)
+                //     ->required(),
+                // Forms\Components\TextInput::make('smoke_level')
+                //     ->label('Smoke Level (%)')
+                //     ->minValue(0)
+                //     ->maxValue(100)
+                //     ->suffix('%')
+                //     ->maxLength(3)
+                //     ->required(),
+                // Forms\Components\Select::make('status')
+                //     ->label('Status')
+                //     ->options([
+                //         'normal' => 'Normal',
+                //         'warning' => 'Warning',
+                //         'danger' => 'Danger',
+                //     ])
+                //     ->required()
+                //     ->placeholder('Select Status')
+                //     ->default('normal'),
                 // Forms\Components\Checkbox::make('fire_detection')
                 //     ->label('Fire')
                 //     ->default(false),
@@ -108,7 +108,7 @@ class LogResource extends Resource
                     ->label('Battery (%)')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('smoke_level')
-                    ->label('Smoke Level (%)')
+                    ->label('Smoke (%)')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
@@ -128,16 +128,18 @@ class LogResource extends Resource
                 Tables\Filters\SelectFilter::make('device_id')
                     ->relationship('device', 'name')
                     ->label('Device'),
-                Tables\Filters\SelectFilter::make('status')
-                    ->options([
-                        'normal' => 'Normal',
-                        'warning' => 'Warning',
-                        'danger' => 'Danger',
-                    ])
-                    ->label('Status')
+                // Tables\Filters\SelectFilter::make('status')
+                //     ->options([
+                //         'normal' => 'Normal',
+                //         'warning' => 'Warning',
+                //         'danger' => 'Danger',
+                //     ])
+                //     ->label('Status')
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\ViewAction::make(),
             ])
             ->headerActions([
                 ExportAction::make()->exporter(LogExporter::class),
@@ -147,6 +149,11 @@ class LogResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function canCreate(): bool
+    {
+        return false; // Disable create functionality
     }
 
     public static function getRelations(): array

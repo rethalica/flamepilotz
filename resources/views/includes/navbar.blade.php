@@ -25,16 +25,33 @@
                 FAQ
             </a>
             @if (Auth::check())
-                <li class="nav-item">
-                    <a class="nav-link mx-1 fw-bold text-decoration-none" href="{{ route('logout') }}"
+                <!-- Dropdown Menu untuk Profile dan Logout -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-bold text-decoration-none" href="#" id="userDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false"
                         @mouseenter="$el.classList.add('text-primary')"
-                        @mouseleave="$el.classList.remove('text-primary')"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        @mouseleave="$el.classList.remove('text-primary')">
                         Logout
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                Profile
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
                 </li>
             @else
                 <li class="nav-item">

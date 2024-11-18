@@ -41,7 +41,7 @@ class UserResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required(fn (string $context) => $context === 'create')
+                    ->required(fn(string $context) => $context === 'create')
                     ->minLength(8),
             ]);
     }
@@ -63,14 +63,14 @@ class UserResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\SelectColumn::make('role')
-                ->options([
-                    'admin' => 'Admin',
-                    'employee' => 'Employee',
-                ])
-                ->inline()
-                ->default('employee')
-                ->sortable()
-                ->searchable(),
+                    ->options([
+                        'admin' => 'Admin',
+                        'employee' => 'Employee',
+                    ])
+                    ->inline()
+                    ->default('employee')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
@@ -91,19 +91,19 @@ class UserResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\BulkAction::make('changeRole')
-                    ->label('Change Role')
-                    ->action(function (array $recordIds, array $data) {
-                        User::whereIn('id', $recordIds)->update(['role' => $data['role']]);
-                    })
-                    ->form([
-                        Forms\Components\Select::make('role')
-                            ->options([
-                                'admin' => 'Admin',
-                                'employee' => 'Employee',
-                            ])
-                            ->required()
-                            ->default('employee')
-                    ])
+                        ->label('Change Role')
+                        ->action(function (array $recordIds, array $data) {
+                            User::whereIn('id', $recordIds)->update(['role' => $data['role']]);
+                        })
+                        ->form([
+                            Forms\Components\Select::make('role')
+                                ->options([
+                                    'admin' => 'Admin',
+                                    'employee' => 'Employee',
+                                ])
+                                ->required()
+                                ->default('employee')
+                        ])
                 ]),
             ]);
     }

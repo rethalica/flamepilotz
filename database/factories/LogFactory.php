@@ -21,12 +21,12 @@ class LogFactory extends Factory
     public function definition(): array
     {
         return [
-            'temperature' => $this->faker->numberBetween(17, 40), // Nilai antara 17 - 40 derajat
-            'water_level' => 100, // Nilai statis 100
-            'battery_level' => 100, // Nilai statis 100
-            'smoke_level' => $this->faker->numberBetween(0, 30), // Nilai antara 0 - 30
-            'status' => 'normal', // Nilai statis 'normal'
-            'device_id' => Device::inRandomOrder()->first()->id, // Mengambil device_id secara acak
+            'temperature' => $this->faker->numberBetween(17, 37),
+            'water_level' => 100,
+            'battery_level' => 100,
+            'smoke_level' => $this->faker->numberBetween(0, 25),
+            'status' => 'normal',
+            'device_id' => Device::inRandomOrder()->first()->id, // take random device_id
         ];
     }
 }

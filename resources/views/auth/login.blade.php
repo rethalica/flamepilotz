@@ -61,8 +61,8 @@
                                         placeholder="Masukkan Kata Sandi" />
                                 </div>
                                 <div class="d-flex justify-content-end mb-4">
-                                    <a href="#" class="text-decoration-none" style="color: #4a90e2">Lupa Kata
-                                        Sandi?</a>
+                                    {{-- <a href="{{ route('password.request') }}" class="text-decoration-none"
+                                        style="color: #4a90e2">Lupa Kata Sandi?</a> --}}
                                 </div>
                                 <button type="submit" class="btn btn-primary w-100">
                                     Masuk
