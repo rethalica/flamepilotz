@@ -111,7 +111,7 @@
         <aside class="w-full lg:w-1/5 bg-[#070201] lg:min-h-screen p-5 text-white sidebar-wrapper">
             <h1 class="text-2xl font-bold mb-8 primary-color">FlamePilot</h1>
             <nav>
-                <h2 class="text-lg font-semibold mb-4 text-light">Pilih Ruangan</h2>
+                <h2 class="text-lg font-semibold mb-4 text-light">Select Room</h2>
                 <select id="room-select" class="w-full p-2 rounded bg-gray-800 text-white focus:outline-none">
                     @foreach ($devices as $device)
                         <option value="{{ $device->id }}">{{ $device->name }}</option>
@@ -130,21 +130,21 @@
             <!-- Dashboard Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div class="bg-card p-5 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold mb-2 text-muted">Ruangan: <span
+                    <h3 class="text-xl font-semibold mb-2 text-muted">Room: <span
                             id="room-name">{{ $devices->first()->name ?? '-' }}</span></h3>
-                    <p class="text-black">Lokasi: <span
+                    <p class="text-black">Location: <span
                             id="room-location">{{ $devices->first()->location ?? '-' }}</span></p>
                 </div>
                 <!-- Additional Cards for Device Data -->
                 <!-- Temperature -->
                 <div class="bg-card p-5 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold mb-2 text-muted">Suhu Ruangan</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-muted">Room Temp</h3>
                     <p class="text-2xl font-bold primary-color" id="temperature">
                         {{ $devices->first()->latestLog->temperature ?? '-' }}°C</p>
                 </div>
                 <!-- Battery -->
                 <div class="bg-card p-5 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold mb-2 text-muted">Baterai</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-muted">Battery</h3>
                     <p class="text-2xl font-bold primary-color" id="battery">
                         {{ $devices->first()->latestLog->battery_level ?? '-' }}%</p>
                 </div>
@@ -241,7 +241,7 @@
         }
 
         // Memanggil fungsi generateLogs setiap 1 menit (60000 ms)
-        setInterval(generateLogs, 60000);
+        setInterval(generateLogs, 300000);
     </script>
     <script>
         // Set up variables for pagination

@@ -33,7 +33,7 @@ class StatsOverview extends BaseWidget
         $helpPublished = HelpCenter::where('status', 'published')->count();
 
         // Combine requested and published into a single stat
-        $helpCenterSummary = "Requested: $helpRequested, Published: $helpPublished";
+        $helpCenterSummary = "Requested: $helpRequested";
 
         // Combine admin and employee counts into a single stat
         $userRoleSummary = "Admins: $adminCount, Employees: $employeeCount";
@@ -43,7 +43,7 @@ class StatsOverview extends BaseWidget
             Stat::make('Total Users', $totalUsers)
                 ->description($userRoleSummary)
                 ->color('info'), // Add description for role summary
-            Stat::make('Help Center', $totalHelpCenters)
+            Stat::make('Help Center', $helpRequested)
                 ->description($helpCenterSummary)
                 ->color('success'), // Add description for help center summary
         ];

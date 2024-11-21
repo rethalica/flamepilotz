@@ -16,7 +16,7 @@ class LogController extends Controller
         $lastLogTime = Cache::get('last_log_generated_time');
 
         // Jika belum pernah ada log atau lebih dari 1 menit sejak log terakhir, buat log baru
-        if (!$lastLogTime || Carbon::parse($lastLogTime)->lt(Carbon::now()->subMinute())) {
+        if (!$lastLogTime || Carbon::parse($lastLogTime)->lt(Carbon::now()->subMinutes(5))) {
             // Mengambil semua device
             $devices = Device::all();
 
@@ -27,7 +27,7 @@ class LogController extends Controller
             }
 
             // Set cache dengan waktu sekarang
-            Cache::put('last_log_generated_time', Carbon::now(), 60); // Cache berlaku selama 60 detik
+            Cache::put('last_log_generated_time', Carbon::now(), 300); // Cache berlaku selama 60 detik
 
             return response()->json(['status' => 'success', 'message' => 'Logs generated successfully']);
         }
